@@ -1,4 +1,4 @@
-function [quad_controlled, K_prime] = make_lqr_controller(x_f, y_f, z_f, Q, R)
+function [quad, quad_controlled, K_prime, L] = make_lqr_controller(x_f, y_f, z_f, Q, R)
   J = 2*eye(3);
   J(3, 3) = 1.01;
   usca = 9.8/0.3;
@@ -29,5 +29,8 @@ function [quad_controlled, K_prime] = make_lqr_controller(x_f, y_f, z_f, Q, R)
   u_vec = [x_f*u; y_f*u; z_f*u; 0*u; 0*u; 0*u; 0*u; 0*u; 0*u; 0*u; 0*u; 0*u;]';
   [Y, t_out, X] = lsim(quad_controlled, u_vec, t);
   figure; plot(t_out, Y(:, 1)); figure; plot(t_out, Y(:, 2)); figure; plot(t_out, Y(:, 3));
+  
+  figure; plot(Y(:, 1), Y(:, 3));
+  figure; plot(Y(:, 1), Y(:, 2));
   
 endfunction

@@ -36,6 +36,10 @@ function [state_history, stimuli] = runner
     T = neutral_buoyancy_pulse;
     lambda = 0;
     zeta = 0;
+    q = old_states(7:10);
+    phi = atan2(2*(q(1)*q(2) + q(3)*q(4)), 1 - 2*(q(2)^2 + q(3)^2));
+    theta = asin(2*(q(1)*q(3) - q(2)*q(4)));
+    psi = atan2(2*(q(1)*q(4) + q(2)*q(3)), 1 - 2*(q(3)^2 + q(4)^2));
     if i < 2000
       lambda = 10;
       zeta = (T - sqrt(T^2 - 4*lambda^2 - 4*T*lambda))/2;
