@@ -31,12 +31,8 @@ function [A, B, C, D] = linear_dynamics(...
   
   f_q_vec = zeros(4, 3);
   f_q_vec(1, :) = -0.5*wb;
-##  f_q_vec(2:end, :) = 0.5*cpm3(qb2g(2:end));
   f_q_vec(2:end, :) = -0.5*cpm3(wb);
-##  f_q_vec = zeros(3, 4);
-##  f_q_vec(:, 1) = -0.5*wb;
-##  f_q_vec(:, 2:4) = 0.5*cpm3(qb2g(2:end));
-  
+
   f_q_sca = zeros(4, 1);
   f_q_sca(2:end, 1) = 0.5*wb;
 

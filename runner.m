@@ -1,4 +1,4 @@
-function [state_history, stimuli] = runner
+function [state_history, euler_angles, stimuli] = runner
   arm_mass = 0.2; %kg
   arm_length = 0.6; %meter
   arm_lengths = [arm_length, arm_length, arm_length, arm_length];
@@ -31,7 +31,10 @@ function [state_history, stimuli] = runner
   dt = 0.001/2;
   old_states = [0, 0, 10, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0];
   stimuli = [];
-  state_history = [state_history; old_states];
+  run_length = 20000;
+%  state_history = [state_history; old_states];
+  state_history = zeros(length(old_states), run_length);
+  euler_angles = zeros(3, run_length);
   for i = 1:20000
     T = neutral_buoyancy_pulse;
     lambda = 0;
@@ -43,7 +46,7 @@ function [state_history, stimuli] = runner
     if i < 2000
       lambda = 10;
       zeta = (T - sqrt(T^2 - 4*lambda^2 - 4*T*lambda))/2;
-    end  
+    end
     u_motor_speeds = [...
       T + lambda,...
       T + lambda,...
@@ -65,7 +68,9 @@ function [state_history, stimuli] = runner
       J_inert,...
       dt...
     );
-    state_history = [state_history; new_states];
+%    state_history = [state_history; new_states];
+    euler_angles(:, i) = [phi, theta, psi];
+    state_history(:, i) = new_states;
     old_states = new_states;
   end  
 endfunction  
